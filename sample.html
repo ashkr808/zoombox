@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- add cdd filr over here -->
+    <link rel="stylesheet" href="css/zoombox.min.css">
+    <!-- extrenal css goes here -->
+    <style rel="stylesheet">
+        img{
+          max-width: 400px;
+        }
+    </style>
+  </head>
+  <body>
+    <img src="https://picsum.photos/300/200" zoombox>
+    <img src="https://picsum.photos/400/200" zoombox>
+    <img src="https://picsum.photos/200/200" zoombox>
+    <img src="https://picsum.photos/500/200" zoombox>
+    <!-- add zoombox.js over here -->
+    <script src="js/zoombox.min.js"></script>
+    <!-- additional zoombox.option() method to use options goes below the included js file -->
+    <script>
+        zoombox.option({
+            enableZoomButton : true,  
+        });
+    </script>
+  </body>
+</html>
