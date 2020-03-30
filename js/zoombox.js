@@ -67,7 +67,7 @@ class zoomboxImages {
 
 	// put clicked image in zoombox and display zoombox
 
-	putImage = () => {
+	putImage(){
 				this.zoomboxBox.style.display = 'block';
 				document.body.style.overflow = (this.LockBodyScroll == "true") ? 'hidden' : 'auto';
 				this.zoomboxBox.style.animationName = 'in';
@@ -102,14 +102,15 @@ class zoomboxImages {
 
 				this.markActiveImage(this.index);
 				this.zoomboxPreview.style.transform = `translateX(-${((this.currIndex/this.images.length)*100)}%)`;
-
-				window.addEventListener('keydown', this.addEvents); //assign left, right and space button form slide control
-				this.zoomboxBox.addEventListener('wheel', this.zoomin, {
-					passive: true
-				}); // assign scrool to zoom
+				window.onkeydown = (e)=>{
+					this.addEvents(e);
+				}
+				window.onwheel = (e)=>{
+					this.zoomin(e);
+				}
 	}
 
-	markActiveImage = (index)=>{
+	markActiveImage(index){
 		this.currIndex = index;
 		this.zoomboxPreview.style.transform = `translateX(-${(index/this.images.length)*100}%)`;//shift preview images one position ahead
 		this.previewImages.forEach( (box,boxIndex)=>{
@@ -118,11 +119,10 @@ class zoomboxImages {
 	}
 	
 	// close botuun funtion
-	closeZoombox = () => {
+	closeZoombox(){
 		this.zoomboxBox.style.opacity = '0';
 		document.body.style.overflow = 'auto';
 		this.checkPlay(true);
-		//checkPlay(true);
 		setTimeout(() => {
 			this.zoomboxBox.style.display = 'none';
 			this.zoomboxBox.style.opacity = '1';
@@ -133,32 +133,29 @@ class zoomboxImages {
 				this.zoomboxPreview.removeChild(last);
 				last = this.zoomboxPreview.lastElementChild;
 			}
-		}, 200)
-		window.removeEventListener('keydown', this.addEvents);
+		}, 200);
 
-		//remove touch controls from zoombox area
-		this.zoomboxBox.removeEventListener('touchstart', this.touchStart , {
-			passive: true
-		});
-
-		this.zoomboxBox.removeEventListener('touchend', this.touchEnd , {
-			passive: true
-		});
+		window.onkeydown = (e)=>{
+			//clear out keyboard button funtion
+		}
+		window.onwheel = (e)=>{
+			//clear out wheel function
+		}
 	}
 	//next slide function via next bitton
-	nextImage = () => {
+	nextImage(){
 		this.checkPlay(true); //play slide show when prev slide button clicked
 		(this.currIndex >= this.images.length - 1) ? this.currIndex = 0: this.currIndex++;
 		this.nextPrevImage(this.currIndex);
 	}
 	//prev slide function via prev bitton
-	prevImage = () => {
+	prevImage(){
 		this.checkPlay(true); //pause slide show when prev slide button clicked
 		(this.currIndex <= 0) ? this.currIndex = this.images.length - 1: this.currIndex--;
 		this.nextPrevImage(this.currIndex);
 	}
 	//funtion to turn on and off slideShow funtion
-	checkPlay = (isplay) => {
+	checkPlay(isplay){
 		this.zoomboxImage.style.transform = ` translate(-50%,-50%) scale(1)`;
 		if (isplay) {
 			this.isplaying = false;
@@ -167,11 +164,11 @@ class zoomboxImages {
 		} else {
 			this.isplaying = true;
 			this.zoomboxPlay.src = `${clientRootDir}images/pause.png`;
-			this.slideShow();
+			this.slideShow();	
 		}
 	}
 	// next and prev funtion using below funtion
-	nextPrevImage = (imageIndex) => {
+	nextPrevImage(imageIndex){
 
 		let src = this.images[imageIndex].getAttribute('src2');
 		this.zoomboxCount.innerHTML = `${imageIndex +1} / ${this.imagesCount}`;
@@ -188,7 +185,7 @@ class zoomboxImages {
 		this.zoomboxCaption.innerHTML = this.images[imageIndex].alt;
 	}
 	// checkplay function calls this funtion whenever needs to play slideshow
-	slideShow = () => {
+	slideShow(){
 		clearTimeout(this.slideTimeOut);
 		(this.currIndex >= this.images.length - 1) ? this.currIndex = 0: this.currIndex++;
 		this.markActiveImage(this.currIndex);//mark active current image preview and shift the preview image 
@@ -197,17 +194,18 @@ class zoomboxImages {
 		let src2 = this.images[this.currIndex].getAttribute('src2');
 		this.zoomboxImage.src = `${clientRootDir}images/load.svg`; //show loading icon untill image loads up
 		this.loadImage.src = (src2) ? src2 : this.images[this.currIndex].src;
-
+		
+		
 		this.loadImage.onload = () => {
 			this.zoomboxImage.classList.remove('slide');
 			this.zoomboxImage.offsetWidth;
 			this.zoomboxImage.classList.add('slide');
 			this.zoomboxImage.src = this.loadImage.src;
-			this.slideTimeOut = setTimeout(this.slideShow, this.slideShowInter);
+			this.slideTimeOut = setTimeout(this.slideShow.bind(this), this.slideShowInter);
 		}
 	}
 	//keybord key assigning for next prev and play button
-	addEvents = (e) => {
+	addEvents(e){
 		if (e.keyCode == 39)
 			(this.enableNavigation == 'true') ? this.nextImage() : '';
 		else if (e.keyCode == 37)
@@ -221,7 +219,7 @@ class zoomboxImages {
 	}
 	// scrooll to zoom
 
-	zoomin = (e) => {
+	zoomin(e){
 		let x;
 		let y;
 		if (this.enableZoom == 2) {
@@ -272,25 +270,24 @@ class zoomboxImages {
 	}
 
 	//touch control funtion for mobile devices
-	touchControl = () => {
+	touchControl(){
 
 		//add touch controls to zoombox area
-		this.zoomboxBox.addEventListener('touchstart', this.touchStart , {
-			passive: true
-		});
-
-		this.zoomboxBox.addEventListener('touchend', this.touchEnd , {
-			passive: true
-		});
+		this.zoomboxBox.ontouchend= (e)=>{
+			this.touchEnd(e);
+		}
+		this.zoomboxBox.ontouchstart= (e)=>{
+			this.touchStart(e);
+		}
 
 	}
-	touchStart = (e)=>{
+	touchStart(e){
 		// console.log(e);
 		this.initialTouchPosition = e.changedTouches[0];
 		// console.log(this.initialTouchPosition);
 	}
 
-	touchEnd = (f)=>{
+	touchEnd(f){
 
 		// console.log(f);
 		var finalTouchPosition = f.changedTouches[0];
@@ -326,7 +323,7 @@ class zoomboxImages {
 		this.enableSlideShow = this.prop.setAttribute('enableSlideShow', (obj.enableSlideShow == false) ? 'false' : 'true' );
 		clientRootDir = (obj.hasRoot)? '/' : '';
 	}
-	execute = ()=>{
+	execute(){
 		this.putImage();
 	
 			this.zoomboxClose.onclick = () => {
