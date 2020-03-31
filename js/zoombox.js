@@ -135,6 +135,10 @@ class zoomboxImages {
 			}
 		}, 200);
 
+		this.loadImage.onload = () => {
+			//clerar out image load
+		}
+
 		window.onkeydown = (e)=>{
 			//clear out keyboard button funtion
 		}
@@ -201,6 +205,7 @@ class zoomboxImages {
 			this.zoomboxImage.offsetWidth;
 			this.zoomboxImage.classList.add('slide');
 			this.zoomboxImage.src = this.loadImage.src;
+			console.log('loaded');
 			this.slideTimeOut = setTimeout(this.slideShow.bind(this), this.slideShowInter);
 		}
 	}
