@@ -205,7 +205,6 @@ class zoomboxImages {
 			this.zoomboxImage.offsetWidth;
 			this.zoomboxImage.classList.add('slide');
 			this.zoomboxImage.src = this.loadImage.src;
-			console.log('loaded');
 			this.slideTimeOut = setTimeout(this.slideShow.bind(this), this.slideShowInter);
 		}
 	}
