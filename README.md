@@ -6,7 +6,7 @@ It is an Interactive JavaScript image viewer with up to 10 customization option.
 4. Copy images from dest/images folder and put then in the 'images' folder of your root directory.
 3. Add "zoombox" attribute to the <img> tag.
 # Demo
-<img src="https://worldsofashishpatel.com/projects/docs/ZoomBox--An-Interactive-and-feature-rich-vanilla-JavaScript-image-viewer-plugin-for-developers/demo/zoombox_demo.gif" height="400">
+<img src="https://worldsofashishpatel.com/projects/docs/ZoomBox--An-Interactive-and-feature-rich-vanilla-JavaScript-image-viewer-plugin-for-developers/demo/zoombox_demo.gif" height="200">
 
 # Full Documention over here !!
 https://www.worldsofashishpatel.com/zoombox
