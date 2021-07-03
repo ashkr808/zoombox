@@ -29,6 +29,11 @@
           height: 100%;
           object-fit: contain;
         }
+        @media only screen and (max-width:768px){
+          .images{
+            grid-template-columns: 1fr;
+          }
+        }
     </style>
   </head>
   <body>
@@ -47,8 +52,18 @@
     <!-- additional zoombox.option() method to use options goes below the included js file -->
     <script>
         zoombox.option({
-            enableZoomButton : true,  
-        });
+          backgroundOpacity : 0.9,
+          imageTransTimimg : '.5s',
+          slideShowInterval :2,
+          lockBodyScroll : true,
+          enableZoomButton : true,  
+          enableScrollZoom : 3,
+          hideWatermark : false,
+          enableTouchControl : true,
+          enableNavigation : true,
+          enableSlideShow : true,
+          hasRoot:false,
+      });
     </script>
   </body>
 </html>
